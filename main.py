@@ -111,7 +111,7 @@ if st.button('処理を実行'):
             first = sch.check_first_choice_teacher(student_name, subject_name, student_subjects_df)
             second = sch.check_second_choice_teacher(student_name, subject_name, student_subjects_df)
             num_classes = sch.get_number_of_classes(student_name, subject_name, student_info_dict_with_priority)
-            st.write("first:{},second:{},num_classes:{}".format(first,second,num_classes))
+            # st.write("first:{},second:{},num_classes:{}".format(first,second,num_classes))
 
             if num_classes == 0:
                 continue
