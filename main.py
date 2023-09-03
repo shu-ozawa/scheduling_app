@@ -204,8 +204,8 @@ for student_name in student_name_list:
     subject_df.to_excel(writer_subjects, index=False, sheet_name=student_name)
 
 # ファイルを保存
-writer_students.save()
-writer_subjects.save()
+writer_students.close()
+writer_subjects.close()
 
 
 
