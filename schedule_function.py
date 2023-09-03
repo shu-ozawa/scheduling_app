@@ -143,7 +143,6 @@ def process_final_schedule(student_name, subject_name, choice, student_subjects_
             seat_schedule_update.loc[index, "先生数"] -= 1
 
             student_row = student_subjects_df[student_subjects_df['生徒の名前'] == student_name]
-            student_subjects_df.at[student_row.index[0], subject_name] -= 1
 
     
     print(teacher_name, "と", student_name, "のスケジュールを実行")

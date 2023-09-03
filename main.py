@@ -143,6 +143,27 @@ for student_name in student_name_list:
             student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update, student_subjects_df = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
 
 
+# 科目と先生名をリセット
+column = ['国語',
+ '数学',
+ '英語',
+ '理科',
+ '社会',
+ '国語の第1希望の先生',
+ '国語の第2希望の先生',
+ '数学の第1希望の先生',
+ '数学の第2希望の先生',
+ '英語の第1希望の先生',
+ '英語の第2希望の先生',
+ '理科の第1希望の先生',
+ '理科の第2希望の先生',
+ '社会の第1希望の先生',
+ '社会の第2希望の先生']
+
+for col in column:
+    student_subjects_df[col] = 0
+
+
 # outputファイルの作成
 with pd.ExcelWriter(first_output_file_path) as writer:
     student_schedule_final.to_excel(writer, sheet_name="全体スケジュール", index=False)
@@ -199,6 +220,7 @@ for student_name in student_name_list:
     student_schedule_data['先生'] = student_schedule_data[student_name].astype(str).apply(lambda x: x.split('・')[1] if '・' in x else '')
     student_schedule_data.drop(columns=[student_name], inplace=True)
     student_schedule_data["生徒名"] = student_name
+
     # 科目ごとにコマ数を取得し、student_schedule_dataに追加
     for subject in subject_name_list:
         student_schedule_data[subject + "のコマ数"] = student_info_dict_with_priority[student_name]["科目"][subject]
