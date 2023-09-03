@@ -142,10 +142,13 @@ def process_final_schedule(student_name, subject_name, choice, student_subjects_
             teacher_schedule_update.loc[index, teacher_name] -= 1
             seat_schedule_update.loc[index, "先生数"] -= 1
 
+            student_row = student_subjects_df[student_subjects_df['生徒の名前'] == student_name]
+            student_subjects_df.at[student_row.index[0], subject_name] -= 1
+
     
     print(teacher_name, "と", student_name, "のスケジュールを実行")
 
-    return student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update
+    return student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update, student_subjects_df
 
 # Function to transform the data for a given day, separating all "未定" teachers into different rows
 def transform_day_data(day_data):

@@ -69,8 +69,13 @@ for index, row in student_subjects_df.iterrows():
 
 
 # 「生徒スケジュール確定版」データフレームの作成
-student_schedule_final = student_schedule_df.copy().astype(int)
-student_schedule_final.iloc[:, 2:] = 0
+workbok = openpyxl.load_workbook(first_input_file_path)
+if "全体スケジュール" in workbok.sheetnames:
+    student_schedule_final = pd.read_excel(first_input_file_path, sheet_name="全体スケジュール")
+else:
+    student_schedule_final = student_schedule_df.copy().astype(int)
+    student_schedule_final.iloc[:, 2:] = 0
+workbok.close()
 
 # 「生徒スケジュール更新用」データフレームの作成
 student_schedule_update = student_schedule_df.copy().astype(int)
@@ -119,7 +124,7 @@ for student_name in student_name_list:
         if first == 1:
             choice = "first"
             subject_table, interval_classes = sch.calculate_schedule_possibility(student_name, subject_name, choice, schedule_table_by_date, num_classes, seat_schedule_update, student_subjects_df, teacher_schedule_df, teacher_schedule_update, student_schedule_update)
-            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
+            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update, student_subjects_df = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
 
             if num_classes == 0:
                 continue
@@ -127,7 +132,7 @@ for student_name in student_name_list:
         if num_classes > 0 and second == 1:
             choice = "second"
             subject_table, interval_classes = sch.calculate_schedule_possibility(student_name, subject_name, choice, schedule_table_by_date, num_classes, seat_schedule_update, student_subjects_df, teacher_schedule_df, teacher_schedule_update, student_schedule_update)
-            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
+            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update, student_subjects_df = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
 
             if num_classes == 0:
                 continue
@@ -135,7 +140,7 @@ for student_name in student_name_list:
         while num_classes > 0:
             choice = "undecided"
             subject_table, interval_classes = sch.calculate_schedule_possibility(student_name, subject_name, choice, schedule_table_by_date, num_classes, seat_schedule_update, student_subjects_df, teacher_schedule_df, teacher_schedule_update, student_schedule_update)
-            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
+            student_schedule_final, student_schedule_update, teacher_schedule_update, num_classes, schedule_table_by_date, seat_schedule_update, student_subjects_df = sch.process_final_schedule(student_name, subject_name, choice, student_subjects_df, student_schedule_final, student_schedule_update, teacher_schedule_update, subject_table, interval_classes, num_classes, schedule_table_by_date, seat_schedule_update)
 
 
 # outputファイルの作成
@@ -144,6 +149,7 @@ with pd.ExcelWriter(first_output_file_path) as writer:
     teacher_schedule_update.to_excel(writer, sheet_name='先生スケジュール', index=False)
     student_schedule_update.to_excel(writer, sheet_name='生徒スケジュール', index=False)
     seat_schedule_update.to_excel(writer, sheet_name='座席上限', index=False)
+    student_subjects_df.to_excel(writer, sheet_name='生徒_受講コマ数', index=False)
 
 
 
