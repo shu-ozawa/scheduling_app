@@ -33,8 +33,8 @@ first_input_file_path = "./1_スケジュール実行/input/input.xlsx"
 
 # 出力のファイルパス
 first_output_file_path = "./1_スケジュール実行/output/output.xlsx"
-individual_students_schedule_file_path = './2_スケジュール表作成/Data/individual_students_schedule.xlsx'
-individual_subjects_file_path = './2_スケジュール表作成/Data/individual_subjects.xlsx'
+individual_students_schedule_file_path = './2_Student_schedule_PDF/Data/individual_students_schedule.xlsx'
+individual_subjects_file_path = './2_Student_schedule_PDF/Data/individual_subjects.xlsx'
 seat_schedule_file_path = "./3_座席表作成/Data/Individual_seat_table.xlsx"
 
 # ファイルの読み込み
